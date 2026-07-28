@@ -1,17 +1,14 @@
 pipeline {
     agent any
-
     environment {
         IMAGE_NAME = "ai-resume-backend"
     }
-
     stages {
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/keerthanaravichandran1509-glitch/ai-resume-checker.git'
             }
         }
-
         stage('Build Docker Image') {
             steps {
                 dir('backend') {
@@ -19,14 +16,17 @@ pipeline {
                 }
             }
         }
-
+        stage('Trivy Scan') {
+            steps {
+                sh 'trivy image --severity HIGH,CRITICAL --exit-code 0 --format table $IMAGE_NAME | tee trivy-report.txt'
+            }
+        }
         stage('Verify') {
             steps {
                 sh 'docker images $IMAGE_NAME'
             }
         }
     }
-
     post {
         success {
             echo 'Build succeeded!'
