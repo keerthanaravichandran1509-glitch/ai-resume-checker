@@ -16,7 +16,7 @@ function App() {
           <img src={viteLogo} className="vite" alt="Vite logo" />
         </div>
         <div>
-          <h1>AI Resume Checker v4
+          <h1>AI Resume Checker v5
           </h1>
           <p>
             Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
